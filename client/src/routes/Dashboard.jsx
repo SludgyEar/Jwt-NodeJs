@@ -47,17 +47,28 @@ export default function Dashboard() {
                     >
                         Perfil
                     </button>
+                    {auth.isAdmin && (
+                        <button className={selectedService === 'admin' ? 'active' : ''} onClick={() => handleSelectedService('admin')}>
+                            Panel de Usuarios
+                        </button>
+                    )}
                 </div>
             {selectedService === 'inicio' && (
                 <div className="service-card">
                     <h2>Bienvenido al inicio {auth.user.name}, tienes privilegios de {auth.user.rol}.</h2>
                     <p>Datos: {auth.user.id} {auth.user.name} {auth.user.status} {auth.user.tel} {auth.user.rol} {auth.user.iat} {auth.user.exp}</p>
+                    <p>Es admin? {auth.isAdmin ? '1' : '2'}</p>
                 </div>
             )}
             {selectedService === 'perfil' && (
                 <div className="service-card">
                         <h2>Bienvenido a tu perfil</h2>
                         <a href="/" className="footer-link">login</a>
+                </div>
+            )}
+            {selectedService === 'admin' && (
+                <div className='service-card'>
+                    <h2>Panel de administración de usuarios</h2>
                 </div>
             )}
             </div>

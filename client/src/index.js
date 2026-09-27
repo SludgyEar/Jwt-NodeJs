@@ -7,6 +7,8 @@ import { UserProvider } from './providers/UserProvider';
 import Login from './routes/Login';
 import Register from './routes/Register';
 import Dashboard from './routes/Dashboard';
+import AdminPanel from './services/AdminPanel';
+import UserCrud from './services/UserCrud';
 
 
 const router = createBrowserRouter([
@@ -15,8 +17,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: '/login',
-    element: <Login />,
+    path: '/admin',
+    element: <UserCrud />,
   },
   {
     path: '/register',

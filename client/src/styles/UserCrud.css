@@ -1,0 +1,20 @@
+.crud-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-search-container{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.filtro-buttons{
+    display: flex;
+    justify-content: center;
+    margin-right: 50px;
+}
+
+.user-table-container{
+
+}

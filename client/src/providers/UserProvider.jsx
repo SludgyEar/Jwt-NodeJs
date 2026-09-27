@@ -16,32 +16,38 @@ const UserContext = createContext({
 export function UserProvider({ children }){
     useEffect(() => {
         async function fetchToken() {
-            const response = await axios.get('http://localhost:5000/api/verify/getToken', {withCredentials: true});
-            const { token, user } = response.data;
-            if(response.data){
-                try {
-                    const currentTime = Date.now() / 1000;
-                    if (user.exp > currentTime) {
-                        setToken(token);
-                        if (user){
-                            setUser(user);
-                            handleAuth(true);
-                        }else{
-                            setUser({
-                                id: user.id,
-                                name: user.name || '',
-                                rol: user.role,
-                                status: user.status,
-                                tel: user.tel
-                            });
-                            handleAuth(true);
+            try{
+                const response = await axios.get('http://localhost:5000/api/verify/getToken', { withCredentials: true });
+                const { token, user } = response.data;
+                if (token) {
+                    try {
+                        const currentTime = Date.now() / 1000;
+                        if (user.exp > currentTime) {
+                            setToken(token);
+                            if (user) {
+                                setUser(user);
+                                if (user.rol === 'ADMIN' || user.rol === 'admin') handleAdmin(true);
+                                handleAuth(true);
+                            } else {
+                                setUser({
+                                    id: user.id,
+                                    name: user.name || '',
+                                    rol: user.rol,
+                                    status: user.status,
+                                    tel: user.tel
+                                });
+                                if (user.rol === 'ADMIN' || user.rol === 'admin') handleAdmin(true);
+                                handleAuth(true);
+                            }
+                        } else {
+                            await axios.get('http://localhost:5000/api/verify/removeToken', { withCredentials: true });
                         }
-                    } else {
-                        await axios.get('http://localhost:5000/api/verify/removeToken', { withCredentials: true });
+                    } catch (error) {
+                        console.error('Error al verificar token:', error);
                     }
-                } catch (error) {
-                    console.error('Error al verificar token:', error);
                 }
+            }catch(error){
+                console.log("Intena logearte para acceder")
             }
         }
         fetchToken();
